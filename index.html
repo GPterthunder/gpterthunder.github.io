@@ -137,7 +137,35 @@ button{font:inherit}
  function drum(t,p=126,d=.11,v=.72){const o=ctx.createOscillator(),g=ctx.createGain();o.type='sine';o.frequency.setValueAtTime(p,t);o.frequency.exponentialRampToValueAtTime(58,t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(master);o.start(t);o.stop(t+d+.03)}
  function crash(t){const b=ctx.createBuffer(1,Math.floor(ctx.sampleRate*1.1),ctx.sampleRate),a=b.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=Math.random()*2-1;const s=ctx.createBufferSource(),hp=ctx.createBiquadFilter(),g=ctx.createGain();s.buffer=b;hp.type='highpass';hp.frequency.value=2800;g.gain.setValueAtTime(.48,t);g.gain.exponentialRampToValueAtTime(.001,t+1);s.connect(hp);hp.connect(g);g.connect(master);s.start(t);s.stop(t+1.02)}
  function confetti(){const colors=['#ff4e98','#ffd54b','#35c9ff','#7fff72','#b650ff','#ff953e'];for(let i=0;i<130;i++){const c=document.createElement('i');c.className='confetti';c.style.left=Math.random()*100+'vw';c.style.background=colors[Math.floor(Math.random()*colors.length)];c.style.setProperty('--dx',(Math.random()-.5)*430+'px');c.style.animationDuration=(2.1+Math.random()*1.8)+'s';scene.appendChild(c);setTimeout(()=>c.remove(),4300)}}
- function musicPhrase(st){const beat=.33;const notes=[659,784,880,1047,988,784,659,587,659,784,1047,1175,1047,988,880,784,880,1047,1319,1175,1047,988,880,784];let t=st;for(let i=0;i<notes.length;i++){oscTone(notes[i],t,beat*.86,.055,i%4===0?'square':'triangle');if(i%4===0)drum(t,100,.075,.11);t+=beat}return t}
+ function musicPhrase(st){
+  // 익숙한 '축하합니다 / Happy Birthday to You' 계열 멜로디를 3/4박자로 반복한다.
+  const bpm=108, beat=60/bpm;
+  const seq=[
+   [392.00,.5],[392.00,.5],[440.00,1],[392.00,1],[523.25,1],[493.88,2],
+   [392.00,.5],[392.00,.5],[440.00,1],[392.00,1],[587.33,1],[523.25,2],
+   [392.00,.5],[392.00,.5],[783.99,1],[659.25,1],[523.25,1],[493.88,1],[440.00,2],
+   [698.46,.5],[698.46,.5],[659.25,1],[523.25,1],[587.33,1],[523.25,2]
+  ];
+  let t=st, beatPos=0;
+  const chords=[
+   [0,[261.63,329.63,392.00]],[6,[196.00,246.94,293.66]],[12,[261.63,329.63,392.00]],
+   [18,[196.00,246.94,293.66]],[24,[261.63,329.63,392.00]],[31,[349.23,440.00,523.25]],
+   [37,[261.63,329.63,392.00]],[43,[196.00,246.94,293.66]]
+  ];
+  let ci=0;
+  for(const [freq,dur] of seq){
+    while(ci<chords.length && chords[ci][0]<=beatPos){
+      const [pos,ns]=chords[ci++]; const ct=st+pos*beat;
+      ns.forEach((n,j)=>oscTone(n,ct,beat*2.5,.020,j===0?'sine':'triangle'));
+      drum(ct,92,.09,.075);
+    }
+    const d=dur*beat;
+    oscTone(freq,t,Math.max(.10,d*.88),.060,'triangle');
+    oscTone(freq*2,t+.008,Math.max(.08,d*.68),.016,'sine');
+    t+=d; beatPos+=dur;
+  }
+  return t+beat*.35;
+ }
  function keepMusic(){if(!bgm)return;next=musicPhrase(next);const wait=Math.max(250,(next-ctx.currentTime-.35)*1000);loopTimer=setTimeout(keepMusic,wait)}
  async function begin(){if(started)return;started=true;start.disabled=true;start.textContent='두구두구두구…';initAudio();if(ctx.state==='suspended')await ctx.resume();
   const t=ctx.currentTime+.05;oscTone(880,t,.18,.11,'square');oscTone(660,t+.2,.18,.11,'square');oscTone(880,t+.4,.18,.11,'square');oscTone(660,t+.6,.18,.11,'square');
