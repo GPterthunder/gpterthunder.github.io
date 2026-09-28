@@ -1,1 +1,35 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title>속보입니다 쇼</title><link rel="stylesheet" href="style.css"></head><body><div class="scene" id="scene"><div class="beam b1"></div><div class="beam b2"></div><div class="beam b3"></div><div class="beam b4"></div><div class="beam b5"></div><div class="beam b6"></div><div class="floorGlow"></div><div class="topBar">버튼을 누르면 <strong>두구두구두구 빠밤!</strong> 후 <strong>축하 브금</strong>이 계속 재생됩니다</div><div class="stage"><div class="posterWrap"><img id="posterBefore" class="poster" alt="속보입니다"><img id="posterAfter" class="poster" alt="속 보인다구요"></div></div><div id="flash" class="flash"></div><div class="controls"><div class="badge" id="statusBadge">현재: 속보입니다</div><button class="btn" id="startBtn">🎁 시작하기</button><div class="musicState" id="musicState">음악 대기 중</div></div></div><script src="script.js"></script></body></html>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <meta name="theme-color" content="#12041d">
+  <title>속보입니다</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="scene" id="scene">
+    <div class="beam b1"></div><div class="beam b2"></div><div class="beam b3"></div>
+    <div class="beam b4"></div><div class="beam b5"></div><div class="beam b6"></div>
+    <div class="floorGlow"></div>
+
+    <section class="stage" aria-live="polite">
+      <div class="posterWrap">
+        <img id="posterBefore" class="poster" alt="속보입니다">
+        <img id="posterAfter" class="poster" alt="속 보인다구요">
+      </div>
+    </section>
+
+    <div id="flash" class="flash"></div>
+
+    <div class="controls" id="controls">
+      <button class="startBtn" id="startBtn" disabled>
+        <span id="buttonText">화면 준비 중…</span>
+      </button>
+    </div>
+
+    <button class="audioBtn" id="audioBtn" type="button" hidden aria-label="음악 끄기">🔊</button>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
