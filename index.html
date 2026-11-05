@@ -95,6 +95,7 @@ button{font:inherit}
 
 /* birthday-banner-contrast-v2 */
 .marquee{
+ top:42%;transform:translate(-50%,-50%);
  display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;
  column-gap:clamp(8px,2vw,26px);padding:15px clamp(16px,2.5vw,32px);
  background:linear-gradient(180deg,#38205b 0%,#140722 80%,#0c0416 100%);
@@ -114,12 +115,12 @@ button{font:inherit}
  text-shadow:0 3px 0 #4d2282,0 0 10px #ffffffa6,0 0 24px #ffffff5c;
 }
 @media(max-width:720px){
- .marquee{width:96vw;padding:11px 12px;column-gap:4px}
+ .marquee{top:40%;width:96vw;padding:11px 12px;column-gap:4px}
  .marquee .star{font-size:clamp(25px,6.8vw,42px)}
  .marquee strong{font-size:clamp(17px,4.45vw,31px)}
 }
 @media(max-height:620px) and (orientation:landscape){
- .marquee{padding-top:9px;padding-bottom:9px}
+ .marquee{top:42%;padding-top:9px;padding-bottom:9px}
  .marquee strong{font-size:min(7.2vh,42px)}
  .marquee .star{font-size:min(9vh,48px)}
 }
